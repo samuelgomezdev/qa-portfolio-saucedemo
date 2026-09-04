@@ -71,4 +71,4 @@ Cada não conformidade segue um formato fixo — caso relacionado, resultado obt
 
 ## Autor
 
-**Samuel Gomez da Silva** — [LinkedIn](https://www.linkedin.com/in/samuelgomez-da-silva-a29485311) · [GitHub](https://github.com/samuelgomezdev)
+**Samuel Gomez da Silva** — [LinkedIn](https://www.linkedin.com/in/samuel-gomez-da-silva-a29485311) · [GitHub](https://github.com/samuelgomezdev)
