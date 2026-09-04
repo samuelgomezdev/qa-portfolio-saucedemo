@@ -37,7 +37,7 @@ qa-portfolio-saucedemo/
 | Métrica | Valor |
 |---|---|
 | Casos de teste especificados | 12 |
-| Casos executados | 12 |
+| Casos executados | — |
 | Aprovados | — |
 | Reprovados | — |
 | Defeitos registrados | — |
