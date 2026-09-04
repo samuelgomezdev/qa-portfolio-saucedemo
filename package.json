@@ -1,0 +1,18 @@
+{
+  "name": "qa-portfolio-saucedemo",
+  "version": "1.0.0",
+  "description": "Automação E2E dos casos de teste do Swag Labs (SauceDemo), com geração automática de não conformidades.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "report": "tsx scripts/generate-reports.ts",
+    "test:report": "playwright test; tsx scripts/generate-reports.ts"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0",
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}

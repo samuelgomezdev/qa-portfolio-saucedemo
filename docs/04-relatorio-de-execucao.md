@@ -1,11 +1,13 @@
 # Relatório de Execução — Ciclo 01
 
+> Arquivo **gerado automaticamente** por `scripts/generate-reports.ts`. Não editar à mão.
+> Última geração: 2026-09-04
+
 | Campo | Valor |
 |---|---|
 | Aplicação | Swag Labs (SauceDemo) |
-| Período de execução | _preencher_ |
+| Detecção | Automatizada (Playwright + GitHub Actions) |
 | Responsável | Samuel Gomez da Silva |
-| Ambiente | Windows 11 · Chrome _versão_ · 1920x1080 |
 
 ---
 
@@ -13,52 +15,34 @@
 
 | Métrica | Quantidade |
 |---|---|
-| Casos especificados | 12 |
-| Executados | — |
-| Aprovados | — |
-| Reprovados | — |
-| Bloqueados | — |
-| Não executados | — |
+| Casos automatizados | 3 |
+| Executados | 3 |
+| Aprovados | 2 |
+| Reprovados (NCs) | 1 |
+| Não executados | 0 |
+| Defeitos possivelmente corrigidos | 0 |
 
 ### Por módulo
 
 | Módulo | Executados | Aprovados | Reprovados |
 |---|---|---|---|
-| Autenticação | — | — | — |
-| Catálogo | — | — | — |
-| Carrinho | — | — | — |
-| Checkout | — | — | — |
+| Autenticação | 2 | 2 | 0 |
+| Catálogo | 1 | 0 | 1 |
 
 ---
 
-## 2. Defeitos registrados
+## 2. Não conformidades por severidade
 
 | Severidade | Quantidade |
 |---|---|
-| Bloqueador | — |
-| Crítico | — |
-| Médio | — |
-| Baixo | — |
-| **Total** | **—** |
+| Bloqueador | 0 |
+| Crítico | 0 |
+| Médio | 1 |
+| Baixo | 0 |
+| **Total** | **1** |
 
 ---
 
-## 3. Avaliação dos critérios de saída
+## 3. Conclusão
 
-| Critério | Atendido | Observação |
-|---|---|---|
-| 100% dos casos executados | — | |
-| Nenhum defeito Bloqueador ou Crítico em aberto | — | |
-| Defeitos Médios e Baixos registrados e classificados | — | |
-
----
-
-## 4. Conclusão e recomendação
-
-_Uma recomendação objetiva sobre a liberação, sustentada pelos dados acima. Se houver defeito impeditivo em aberto, indicar qual e por que ele bloqueia._
-
----
-
-## 5. Observações do ciclo
-
-_Limitações encontradas, premissas adotadas na ausência de requisitos formais e pontos sugeridos para o próximo ciclo._
+Nenhuma regressão nova. As NCs abertas são defeitos conhecidos do SUT, já rastreados.
