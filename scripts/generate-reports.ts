@@ -1,112 +1,30 @@
 /**
  * Gerador de relatórios.
  *
- * Lê o JSON produzido pelo Playwright (test-results/results.json) e é a
- * ÚNICA coisa que escreve em docs/. A partir do resultado de cada caso ele:
+ * Lê o resultado da suíte (via scripts/lib/results.ts) e é a ÚNICA coisa que
+ * escreve em docs/. A partir do resultado de cada caso ele:
  *   - reescreve docs/03-relatorio-de-defeitos.md (as não conformidades)
  *   - reescreve docs/04-relatorio-de-execucao.md (as métricas do ciclo)
+ *   - atualiza o bloco de status em docs/02-casos-de-teste.md (entre marcadores)
  *
- * Nenhum status é digitado à mão — tudo deriva da execução real, o que
- * elimina a contradição clássica (ex.: "12 executados" com aprovados em "—").
+ * Nenhum status é digitado à mão — tudo deriva da execução real.
  */
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { lerCasos, isNC, type Caso } from './lib/results';
 
-// ---------------------------------------------------------------------------
-// Tipos mínimos do JSON do Playwright que este gerador consome.
-// ---------------------------------------------------------------------------
-interface PwAnnotation { type: string; description?: string }
-interface PwError { message?: string }
-interface PwResult { status: 'passed' | 'failed' | 'timedOut' | 'skipped' | 'interrupted'; errors?: PwError[] }
-interface PwTest { status: 'expected' | 'unexpected' | 'flaky' | 'skipped'; annotations?: PwAnnotation[]; results?: PwResult[] }
-interface PwSpec { title: string; tests?: PwTest[] }
-interface PwSuite { title?: string; specs?: PwSpec[]; suites?: PwSuite[] }
-interface PwReport { suites?: PwSuite[] }
-
-// ---------------------------------------------------------------------------
-// Modelo interno de um caso já classificado.
-// ---------------------------------------------------------------------------
-type Classificacao = 'Aprovado' | 'NC' | 'NC-nova' | 'Corrigido?' | 'Não executado';
-
-interface Caso {
-  ct: string;              // ex.: CT-CAT-003
-  titulo: string;          // título sem o prefixo do id
-  modulo: string;
-  severidade: string;
-  defeitoConhecido: boolean;
-  classificacao: Classificacao;
-  resultadoObtido: string; // 1ª linha do erro, sem códigos ANSI
-}
-
-const RAIZ = process.cwd();
-const CAMINHO_JSON = resolve(RAIZ, 'test-results/results.json');
-const DIR_DOCS = resolve(RAIZ, 'docs');
+const DIR_DOCS = resolve(process.cwd(), 'docs');
 const HOJE = new Date().toISOString().slice(0, 10);
 
-function semAnsi(txt: string): string {
-  // remove sequências de escape ANSI (cor) do stack de erro
-  return txt.replace(/\[[0-9;]*m/g, '');
-}
-
-function annot(t: PwTest, tipo: string): string | undefined {
-  return t.annotations?.find((a) => a.type === tipo)?.description;
-}
-
-/** Percorre a árvore de suites e devolve todos os specs achatados. */
-function coletarSpecs(suite: PwSuite, acc: PwSpec[] = []): PwSpec[] {
-  for (const s of suite.specs ?? []) acc.push(s);
-  for (const sub of suite.suites ?? []) coletarSpecs(sub, acc);
-  return acc;
-}
-
-function classificar(spec: PwSpec): Caso | null {
-  const t = spec.tests?.[0];
-  if (!t) return null;
-
-  const idMatch = spec.title.match(/^(CT-[A-Z]{3}-\d{3})/);
-  const ct = idMatch ? idMatch[1] : spec.title;
-  const titulo = spec.title.replace(/^CT-[A-Z]{3}-\d{3}\s*[—-]\s*/, '').trim();
-
-  const modulo = annot(t, 'modulo') ?? '—';
-  const severidade = annot(t, 'severidade') ?? '—';
-  const defeitoConhecido = annot(t, 'defeito-conhecido') === 'true';
-
-  const raw = t.results?.[t.results.length - 1]?.status ?? 'skipped';
-  const outcome = t.status;
-  const erro = semAnsi(t.results?.[t.results.length - 1]?.errors?.[0]?.message ?? '')
-    .split('\n')[0]
-    .trim();
-
-  let classificacao: Classificacao;
-  if (raw === 'skipped') {
-    classificacao = 'Não executado';
-  } else if (raw === 'passed') {
-    // Passou de fato. Se era defeito conhecido e passou, virou "corrigido?".
-    classificacao = defeitoConhecido && outcome === 'unexpected' ? 'Corrigido?' : 'Aprovado';
-  } else {
-    // failed / timedOut
-    classificacao = defeitoConhecido && outcome === 'expected' ? 'NC' : 'NC-nova';
-  }
-
-  return { ct, titulo, modulo, severidade, defeitoConhecido, classificacao, resultadoObtido: erro };
-}
-
-// ---------------------------------------------------------------------------
-// Leitura e classificação
-// ---------------------------------------------------------------------------
-let report: PwReport;
+let casos: Caso[];
 try {
-  report = JSON.parse(readFileSync(CAMINHO_JSON, 'utf-8')) as PwReport;
+  casos = lerCasos();
 } catch {
-  console.error(`Não encontrei ${CAMINHO_JSON}. Rode "npm test" antes de "npm run report".`);
+  console.error('Não encontrei test-results/results.json. Rode "npm test" antes de "npm run report".');
   process.exit(1);
 }
 
-const specs = (report.suites ?? []).flatMap((s) => coletarSpecs(s));
-const casos = specs.map(classificar).filter((c): c is Caso => c !== null)
-  .sort((a, b) => a.ct.localeCompare(b.ct));
-
-const ncs = casos.filter((c) => c.classificacao === 'NC' || c.classificacao === 'NC-nova');
+const ncs = casos.filter(isNC);
 
 // ---------------------------------------------------------------------------
 // docs/03-relatorio-de-defeitos.md
@@ -180,7 +98,7 @@ function porModulo(mod: string, pred: (c: Caso) => boolean): number {
   return casos.filter((c) => c.modulo === mod && pred(c)).length;
 }
 
-const sevs: string[] = ['Bloqueador', 'Crítico', 'Médio', 'Baixo'];
+const sevs = ['Bloqueador', 'Crítico', 'Médio', 'Baixo'];
 function porSeveridade(sev: string): number {
   return ncs.filter((c) => c.severidade === sev).length;
 }
@@ -216,7 +134,7 @@ let execucao = `# Relatório de Execução — Ciclo 01
 `;
 
 for (const m of modulos) {
-  execucao += `| ${m} | ${porModulo(m, (c) => c.classificacao !== 'Não executado')} | ${porModulo(m, (c) => c.classificacao === 'Aprovado')} | ${porModulo(m, (c) => c.classificacao === 'NC' || c.classificacao === 'NC-nova')} |\n`;
+  execucao += `| ${m} | ${porModulo(m, (c) => c.classificacao !== 'Não executado')} | ${porModulo(m, (c) => c.classificacao === 'Aprovado')} | ${porModulo(m, isNC)} |\n`;
 }
 
 execucao += `
@@ -245,8 +163,6 @@ writeFileSync(resolve(DIR_DOCS, '04-relatorio-de-execucao.md'), execucao, 'utf-8
 
 // ---------------------------------------------------------------------------
 // docs/02-casos-de-teste.md — bloco de status entre marcadores.
-// A especificação (passos/resultado esperado) é preservada; só o status
-// entre <!-- STATUS:INICIO --> e <!-- STATUS:FIM --> é reescrito.
 // ---------------------------------------------------------------------------
 function rotulo(c: Caso): string {
   switch (c.classificacao) {

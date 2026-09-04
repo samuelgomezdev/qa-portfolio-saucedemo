@@ -1,0 +1,70 @@
+name: Não conformidade (NC)
+description: Registrar um defeito encontrado no Swag Labs
+title: "NC — "
+labels: ["nao-conformidade"]
+body:
+  - type: input
+    id: caso
+    attributes:
+      label: Caso de teste relacionado
+      placeholder: CT-CHK-002
+    validations:
+      required: false
+
+  - type: dropdown
+    id: modulo
+    attributes:
+      label: Módulo
+      options:
+        - Autenticação
+        - Catálogo
+        - Carrinho
+        - Checkout
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severidade
+    attributes:
+      label: Severidade
+      description: Impacto técnico do defeito
+      options:
+        - Bloqueador
+        - Crítico
+        - Médio
+        - Baixo
+    validations:
+      required: true
+
+  - type: textarea
+    id: passos
+    attributes:
+      label: Passos para reproduzir
+      description: Uma ação por linha, numeradas.
+      placeholder: |
+        1. Acessar https://www.saucedemo.com
+        2. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: esperado
+    attributes:
+      label: Resultado esperado
+    validations:
+      required: true
+
+  - type: textarea
+    id: obtido
+    attributes:
+      label: Resultado obtido
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidencia
+    attributes:
+      label: Evidência
+      description: Arraste a captura de tela para cá (mostrando a tela inteira, com a URL).
+    validations:
+      required: false

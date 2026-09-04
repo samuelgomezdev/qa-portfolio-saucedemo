@@ -1,0 +1,80 @@
+name: E2E + Não conformidades
+
+on:
+  schedule:
+    - cron: '0 6 * * *'   # 06:00 UTC (~03:00 BRT), diariamente
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths-ignore:         # commits que só tocam relatórios não disparam o loop
+      - 'docs/**'
+      - 'README.md'
+
+permissions:
+  contents: write         # commitar os relatórios de volta
+  issues: write           # criar/atualizar/fechar Issues de NC
+
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Instalar navegador
+        run: npx playwright install --with-deps chromium
+
+      - name: Executar suíte E2E
+        id: tests
+        continue-on-error: true
+        run: npm test
+
+      - name: Gerar relatórios
+        if: always()
+        run: npm run report
+
+      - name: Sincronizar Issues de NC
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx tsx scripts/sync-issues.ts
+
+      - name: Commitar relatórios atualizados
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/
+          if git diff --cached --quiet; then
+            echo "Sem mudanças nos relatórios."
+          else
+            git commit -m "chore: atualiza relatórios da execução [skip ci]"
+            git push
+          fi
+
+      - name: Publicar artefatos (report, traces, screenshots)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-artefatos
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 14
+
+      - name: Refletir status real da suíte
+        if: always() && steps.tests.outcome == 'failure'
+        run: |
+          echo "Há regressão nova (teste falhou fora dos defeitos conhecidos)."
+          exit 1
