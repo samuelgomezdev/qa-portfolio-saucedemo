@@ -39,16 +39,14 @@ Verificar se as funcionalidades essenciais do e-commerce Swag Labs se comportam 
 
 ## 3. Estratégia
 
-O teste é **funcional, manual, em caixa-preta**, executado a partir da interface do usuário sem acesso ao código-fonte.
+O teste é **funcional, em caixa-preta**, executado a partir da interface do usuário sem acesso ao código-fonte. A execução é **automatizada com Playwright + TypeScript**, e os relatórios de defeitos e de execução são gerados a partir do resultado da suíte.
 
 Técnicas de derivação de casos aplicadas:
 
 | Técnica | Onde foi aplicada |
 |---|---|
 | Partição de equivalência | Campos de login e de checkout — classes válidas e inválidas |
-| Análise de valor limite | Campos de texto com limite de caracteres |
 | Transição de estados | Fluxo do carrinho e do checkout (vazio → com item → informações → resumo → concluído) |
-| Teste baseado em experiência | Exploração livre dos módulos após a execução dos casos especificados |
 
 ---
 

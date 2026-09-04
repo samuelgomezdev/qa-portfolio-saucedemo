@@ -3,7 +3,30 @@
 Identificação: `CT-[MÓDULO]-[NÚMERO]`
 Módulos: `LOG` autenticação · `CAT` catálogo · `CAR` carrinho · `CHK` checkout
 
-Status possíveis: `Aprovado` · `Reprovado` · `Bloqueado` · `Não executado`
+O **status de cada caso é gerado automaticamente** pela execução da suíte
+(Playwright), no bloco abaixo. A especificação (passos e resultado esperado)
+é mantida à mão; o status, não.
+
+## Situação atual
+
+<!-- STATUS:INICIO -->
+_Gerado automaticamente em 2026-09-04 — 12 casos executados._
+
+| Caso | Módulo | Status |
+|---|---|---|
+| CT-CAR-001 | Carrinho | ✅ Aprovado |
+| CT-CAR-002 | Carrinho | ✅ Aprovado |
+| CT-CAT-001 | Catálogo | ✅ Aprovado |
+| CT-CAT-002 | Catálogo | ✅ Aprovado |
+| CT-CAT-003 | Catálogo | 🐞 NC (defeito conhecido) |
+| CT-CHK-001 | Checkout | ✅ Aprovado |
+| CT-CHK-002 | Checkout | ✅ Aprovado |
+| CT-LOG-001 | Autenticação | ✅ Aprovado |
+| CT-LOG-002 | Autenticação | ✅ Aprovado |
+| CT-LOG-003 | Autenticação | ✅ Aprovado |
+| CT-LOG-004 | Autenticação | ✅ Aprovado |
+| CT-LOG-005 | Autenticação | ✅ Aprovado |
+<!-- STATUS:FIM -->
 
 ---
 
@@ -26,10 +49,6 @@ Status possíveis: `Aprovado` · `Reprovado` · `Bloqueado` · `Não executado`
 **Resultado esperado**
 Usuário é autenticado e redirecionado para a listagem de produtos, com os produtos visíveis.
 
-| Status | Evidência |
-|---|---|
-| _preencher_ | — |
-
 ---
 
 ### CT-LOG-002 — Login com senha incorreta
@@ -49,10 +68,6 @@ Usuário é autenticado e redirecionado para a listagem de produtos, com os prod
 **Resultado esperado**
 Login é negado, mensagem de erro é exibida e o usuário permanece na tela de login. A mensagem não deve indicar qual dos dois campos está incorreto.
 
-| Status | Evidência |
-|---|---|
-| _preencher_ | — |
-
 ---
 
 ### CT-LOG-003 — Login com campos obrigatórios em branco
@@ -70,10 +85,6 @@ Login é negado, mensagem de erro é exibida e o usuário permanece na tela de l
 **Resultado esperado**
 Mensagem indicando que o campo Username é obrigatório. Nenhuma tentativa de autenticação é realizada.
 
-| Status | Evidência |
-|---|---|
-| _preencher_ | — |
-
 ---
 
 ### CT-LOG-004 — Login com usuário bloqueado
@@ -90,10 +101,6 @@ Mensagem indicando que o campo Username é obrigatório. Nenhuma tentativa de au
 
 **Resultado esperado**
 Acesso negado com mensagem informando que a conta está bloqueada. O usuário não acessa o catálogo.
-
-| Status | Evidência |
-|---|---|
-| _preencher_ | — |
 
 ---
 
@@ -113,10 +120,6 @@ Acesso negado com mensagem informando que a conta está bloqueada. O usuário n�
 **Resultado esperado**
 Sessão é encerrada e o usuário retorna à tela de login. O botão voltar não restaura o acesso ao catálogo.
 
-| Status | Evidência |
-|---|---|
-| _preencher_ | — |
-
 ---
 
 ## Módulo: Catálogo
@@ -134,10 +137,6 @@ Sessão é encerrada e o usuário retorna à tela de login. O botão voltar não
 **Resultado esperado**
 Todos os produtos são exibidos com nome, descrição, preço e imagem correspondente ao produto. Cada item possui botão de adicionar ao carrinho.
 
-| Status | Evidência |
-|---|---|
-| _preencher_ | — |
-
 ---
 
 ### CT-CAT-002 — Ordenação de produtos por preço crescente
@@ -153,13 +152,9 @@ Todos os produtos são exibidos com nome, descrição, preço e imagem correspon
 **Resultado esperado**
 A listagem é reordenada com o produto de menor preço na primeira posição e o de maior preço na última.
 
-| Status | Evidência |
-|---|---|
-| _preencher_ | — |
-
 ---
 
-### CT-CAT-003 — Imagens dos produtos com usuário problem_user
+### CT-CAT-003 — Imagens dos produtos com problem_user
 
 | Campo | Valor |
 |---|---|
@@ -172,10 +167,6 @@ A listagem é reordenada com o produto de menor preço na primeira posição e o
 
 **Resultado esperado**
 Cada produto exibe a imagem que corresponde ao seu nome e descrição.
-
-| Status | Evidência |
-|---|---|
-| _preencher_ | — |
 
 ---
 
@@ -197,10 +188,6 @@ Cada produto exibe a imagem que corresponde ao seu nome e descrição.
 **Resultado esperado**
 O contador exibe 1, o botão do produto muda para remover e o produto adicionado consta no carrinho com nome, preço e quantidade corretos.
 
-| Status | Evidência |
-|---|---|
-| _preencher_ | — |
-
 ---
 
 ### CT-CAR-002 — Remover produto do carrinho
@@ -217,10 +204,6 @@ O contador exibe 1, o botão do produto muda para remover e o produto adicionado
 
 **Resultado esperado**
 O produto é removido da listagem e o contador do ícone do carrinho deixa de ser exibido.
-
-| Status | Evidência |
-|---|---|
-| _preencher_ | — |
 
 ---
 
@@ -242,10 +225,6 @@ O produto é removido da listagem e o contador do ícone do carrinho deixa de se
 **Resultado esperado**
 O fluxo é interrompido com mensagem indicando o campo obrigatório não preenchido. O usuário permanece na mesma etapa.
 
-| Status | Evidência |
-|---|---|
-| _preencher_ | — |
-
 ---
 
 ### CT-CHK-002 — Conclusão do pedido com dados válidos
@@ -265,7 +244,3 @@ O fluxo é interrompido com mensagem indicando o campo obrigatório não preench
 
 **Resultado esperado**
 O resumo apresenta os produtos corretos e o total equivalente à soma do subtotal com o imposto. Após finalizar, é exibida a confirmação do pedido e o carrinho é esvaziado.
-
-| Status | Evidência |
-|---|---|
-| _preencher_ | — |

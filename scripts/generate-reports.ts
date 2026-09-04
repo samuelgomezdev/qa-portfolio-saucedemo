@@ -243,4 +243,34 @@ ${temNova
 
 writeFileSync(resolve(DIR_DOCS, '04-relatorio-de-execucao.md'), execucao, 'utf-8');
 
+// ---------------------------------------------------------------------------
+// docs/02-casos-de-teste.md — bloco de status entre marcadores.
+// A especificação (passos/resultado esperado) é preservada; só o status
+// entre <!-- STATUS:INICIO --> e <!-- STATUS:FIM --> é reescrito.
+// ---------------------------------------------------------------------------
+function rotulo(c: Caso): string {
+  switch (c.classificacao) {
+    case 'Aprovado': return '✅ Aprovado';
+    case 'NC': return '🐞 NC (defeito conhecido)';
+    case 'NC-nova': return '❌ NC (regressão)';
+    case 'Corrigido?': return '🔎 Verificar (passou inesperado)';
+    default: return '⏭️ Não executado';
+  }
+}
+
+const caminho02 = resolve(DIR_DOCS, '02-casos-de-teste.md');
+try {
+  const original = readFileSync(caminho02, 'utf-8');
+  let tabela = `_Gerado automaticamente em ${HOJE} — ${casos.length} casos executados._\n\n`;
+  tabela += '| Caso | Módulo | Status |\n|---|---|---|\n';
+  for (const c of casos) tabela += `| ${c.ct} | ${c.modulo} | ${rotulo(c)} |\n`;
+  const patched = original.replace(
+    /<!-- STATUS:INICIO -->[\s\S]*?<!-- STATUS:FIM -->/,
+    `<!-- STATUS:INICIO -->\n${tabela}<!-- STATUS:FIM -->`,
+  );
+  writeFileSync(caminho02, patched, 'utf-8');
+} catch {
+  console.warn('docs/02-casos-de-teste.md não encontrado; pulei o bloco de status.');
+}
+
 console.log(`Relatórios gerados: ${casos.length} casos, ${ncs.length} NC(s).`);

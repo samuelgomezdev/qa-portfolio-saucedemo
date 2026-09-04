@@ -15,9 +15,9 @@
 
 | Métrica | Quantidade |
 |---|---|
-| Casos automatizados | 3 |
-| Executados | 3 |
-| Aprovados | 2 |
+| Casos automatizados | 12 |
+| Executados | 12 |
+| Aprovados | 11 |
 | Reprovados (NCs) | 1 |
 | Não executados | 0 |
 | Defeitos possivelmente corrigidos | 0 |
@@ -26,8 +26,10 @@
 
 | Módulo | Executados | Aprovados | Reprovados |
 |---|---|---|---|
-| Autenticação | 2 | 2 | 0 |
-| Catálogo | 1 | 0 | 1 |
+| Autenticação | 5 | 5 | 0 |
+| Carrinho | 2 | 2 | 0 |
+| Catálogo | 3 | 2 | 1 |
+| Checkout | 2 | 2 | 0 |
 
 ---
 
