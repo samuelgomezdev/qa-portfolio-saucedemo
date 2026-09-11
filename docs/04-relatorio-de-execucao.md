@@ -1,7 +1,7 @@
 # Relatório de Execução — Ciclo 01
 
 > Arquivo **gerado automaticamente** por `scripts/generate-reports.ts`. Não editar à mão.
-> Última geração: 2026-09-10
+> Última geração: 2026-09-11
 
 | Campo | Valor |
 |---|---|
@@ -47,4 +47,4 @@
 
 ## 3. Conclusão
 
-Nenhuma regressão nova. As NCs abertas são defeitos conhecidos do SUT, já rastreados.
+⚠️ Há regressão nova (NC não catalogada como defeito conhecido). Recomenda-se investigar antes de liberar.

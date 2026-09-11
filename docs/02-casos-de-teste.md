@@ -10,7 +10,7 @@ O **status de cada caso é gerado automaticamente** pela execução da suíte
 ## Situação atual
 
 <!-- STATUS:INICIO -->
-_Gerado automaticamente em 2026-09-10 — 12 casos executados._
+_Gerado automaticamente em 2026-09-11 — 12 casos executados._
 
 | Caso | Módulo | Status |
 |---|---|---|
@@ -18,7 +18,7 @@ _Gerado automaticamente em 2026-09-10 — 12 casos executados._
 | CT-CAR-002 | Carrinho | ✅ Aprovado |
 | CT-CAT-001 | Catálogo | ✅ Aprovado |
 | CT-CAT-002 | Catálogo | ✅ Aprovado |
-| CT-CAT-003 | Catálogo | 🐞 NC (defeito conhecido) |
+| CT-CAT-003 | Catálogo | ❌ NC (regressão) |
 | CT-CHK-001 | Checkout | ✅ Aprovado |
 | CT-CHK-002 | Checkout | ✅ Aprovado |
 | CT-LOG-001 | Autenticação | ✅ Aprovado |

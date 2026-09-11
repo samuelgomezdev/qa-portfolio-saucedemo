@@ -1,7 +1,7 @@
 # Relatório de Defeitos — Swag Labs
 
 > Arquivo **gerado automaticamente** por `scripts/generate-reports.ts`. Não editar à mão.
-> Última geração: 2026-09-10
+> Última geração: 2026-09-11
 
 ---
 
@@ -9,7 +9,7 @@
 
 | ID | Caso | Módulo | Severidade | Status |
 |---|---|---|---|---|
-| NC-CAT-003 | CT-CAT-003 | Catálogo | Médio | Aberto (defeito conhecido) |
+| NC-CAT-003 | CT-CAT-003 | Catálogo | Médio | Aberto (regressão) |
 
 ---
 
@@ -20,9 +20,9 @@
 | **Caso de teste** | CT-CAT-003 |
 | **Módulo** | Catálogo |
 | **Severidade** | Médio |
-| **Status** | Aberto (defeito conhecido) |
+| **Status** | Aberto (regressão) |
 | **Detecção** | Automatizada (Playwright) |
-| **Data** | 2026-09-10 |
+| **Data** | 2026-09-11 |
 
 ### Resultado obtido
 Error: Esperado 6 imagens distintas (uma por produto); encontrado 1. O problem_user exibe a mesma imagem para todos os itens.
