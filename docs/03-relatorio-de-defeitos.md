@@ -1,7 +1,7 @@
 # Relatório de Defeitos — Swag Labs
 
 > Arquivo **gerado automaticamente** por `scripts/generate-reports.ts`. Não editar à mão.
-> Última geração: 2026-09-11
+> Última geração: 2026-09-12
 
 ---
 
@@ -22,7 +22,7 @@
 | **Severidade** | Médio |
 | **Status** | Aberto (regressão) |
 | **Detecção** | Automatizada (Playwright) |
-| **Data** | 2026-09-11 |
+| **Data** | 2026-09-12 |
 
 ### Resultado obtido
 Error: Esperado 6 imagens distintas (uma por produto); encontrado 1. O problem_user exibe a mesma imagem para todos os itens.
