@@ -10,7 +10,7 @@ O **status de cada caso é gerado automaticamente** pela execução da suíte
 ## Situação atual
 
 <!-- STATUS:INICIO -->
-_Gerado automaticamente em 2026-09-15 — 12 casos executados._
+_Gerado automaticamente em 2026-09-16 — 12 casos executados._
 
 | Caso | Módulo | Status |
 |---|---|---|
