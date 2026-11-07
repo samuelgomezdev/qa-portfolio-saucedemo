@@ -1,7 +1,7 @@
 # Relatório de Execução — Ciclo 01
 
 > Arquivo **gerado automaticamente** por `scripts/generate-reports.ts`. Não editar à mão.
-> Última geração: 2026-11-06
+> Última geração: 2026-11-07
 
 | Campo | Valor |
 |---|---|
